@@ -3,3 +3,4 @@ uvicorn[standard]
 starlette
 pymongo
 pymongo[srv]
+python-doten
