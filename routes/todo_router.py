@@ -18,7 +18,7 @@ async def get_todo(id: str):
 @todo_api_router.post('/todo')
 async def insert_todo(todo: Todo):
     id = collection_name.insert_one(dict(todo))
-    return {'message' : 'created', 'id': id, 'data' : dict(todo)}
+    return {'message' : 'created', 'id': str(id.inserted_id), 'data' : dict(todo)}
 
 @todo_api_router.put('/todo/{id}')
 async def update_todo(id: str, todo: Todo):
@@ -30,7 +30,8 @@ async def update_todo(id: str, todo: Todo):
     return {'message' : 'Update', 'data': update}
 
 
-@todo_api_router.delete('/todo')
-async def delete_todo():
-    id = collection_name.delete_one()
-    return {'message' : 'deleted', 'id': id}
+@todo_api_router.delete('/todo/{id}')
+async def delete_todo(id: str):
+    deleted_data = await get_todo(id)
+    id = collection_name.delete_one({'_id': ObjectId(id)})
+    return {'message' : 'deleted', 'data': deleted_data}
