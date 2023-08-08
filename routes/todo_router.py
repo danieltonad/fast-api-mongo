@@ -19,5 +19,5 @@ async def get_todo(id: str):
 async def insert_todo(todo: Todo):
     id = collection_name.insert_one(dict(todo))
     # data = "todos_serializer(collection_name.find({'_id': id.inserted_id}))"
-    # return {'message' : 'created', 'id': id, 'data' : data}
+    return {'message' : 'created', 'id': id, 'data' : dict(todo)}
     return 100
