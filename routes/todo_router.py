@@ -15,9 +15,22 @@ async def get_todos():
 async def get_todo(id: str):
     return todos_serializer(collection_name.find({'_id': ObjectId(id)}))
 
-@todo_api_router.post('/post')
+@todo_api_router.post('/todo')
 async def insert_todo(todo: Todo):
     id = collection_name.insert_one(dict(todo))
-    # data = "todos_serializer(collection_name.find({'_id': id.inserted_id}))"
     return {'message' : 'created', 'id': id, 'data' : dict(todo)}
-    return 100
+
+@todo_api_router.put('/todo/{id}')
+async def update_todo(id: str, todo: Todo):
+    collection_name.find_one_and_update({'_id': ObjectId(id)},{
+        "$set": dict(todo)
+    })
+    update = await get_todo(id)
+    print(update)
+    return {'message' : 'Update', 'data': update}
+
+
+@todo_api_router.delete('/todo')
+async def delete_todo():
+    id = collection_name.delete_one()
+    return {'message' : 'deleted', 'id': id}
