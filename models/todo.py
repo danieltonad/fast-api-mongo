@@ -3,6 +3,6 @@ import datetime
 
 class Todo(BaseModel):
     name: str
-    decription: str
+    description: str
     completed: bool
-    date: datetime
+    # date: datetime

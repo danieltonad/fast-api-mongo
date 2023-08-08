@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from starlette.responses import HTMLResponse
-import config.db
+from routes.todo_router import todo_api_router
 
 app = FastAPI()
-
-@app.get('/')
-def index():
-    return HTMLResponse('You in MF')
+app.include_router(todo_api_router)
+# @app.get('/')
+# def index():
+#     return HTMLResponse('You in MF')
